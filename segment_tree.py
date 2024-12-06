@@ -42,18 +42,16 @@ class SegmentTree:
 
     def _update(self, st_i, boundLeft, boundRight, i, val):
         if boundLeft == boundRight and boundLeft == i:
-            diff = val - self.ST[st_i]
             self.ST[st_i] = val
-            return diff
+            return
 
         mid = ((boundRight - boundLeft) // 2) + boundLeft
         if i <= mid:
-            diff = self._update(2 * st_i, boundLeft, mid, i, val)
+            self._update(2 * st_i, boundLeft, mid, i, val)
         else:
-            diff = self._update((2 * st_i) + 1, mid + 1, boundRight, i, val)
+            self._update((2 * st_i) + 1, mid + 1, boundRight, i, val)
 
-        self.ST[st_i] += diff
-        return diff
+        self.ST[st_i] = self.ST[2 * st_i] + self.ST[(2 * st_i) + 1]
 
 
 mySegmentTree = SegmentTree([1, 3, -2, 8, -7])
